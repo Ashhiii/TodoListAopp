@@ -10,6 +10,7 @@ import { FontAwesome } from '@expo/vector-icons';
 export default function App() {
   const [tasks, setTasks] = useState([]);
   const [taskInput, setTaskInput] = useState('');
+  const [searchInput, setSearchInput] = useState(''); // For search functionality
   const [isEditModalVisible, setEditModalVisible] = useState(false);
   const [editingTaskIndex, setEditingTaskIndex] = useState(null);
   const [editTaskInput, setEditTaskInput] = useState('');
@@ -123,7 +124,11 @@ export default function App() {
       )}
     </View>
   );
-  
+
+  // Filtering tasks based on search input
+  const filteredTasks = tasks.filter((task) =>
+    task.text.toLowerCase().includes(searchInput.toLowerCase())
+  );
 
   return (
     <View style={styles.container}>
@@ -134,6 +139,16 @@ export default function App() {
         <TouchableOpacity onPress={openMenu}>
           <FontAwesome name="ellipsis-v" size={24} color="black" />
         </TouchableOpacity>
+      </View>
+
+      <View style={styles.searchContainer}>
+        <FontAwesome name="search" size={20} color="#00796b" style={styles.searchIcon} />
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search tasks..."
+          value={searchInput}
+          onChangeText={setSearchInput}
+        />
       </View>
 
       <TextInput
@@ -148,7 +163,7 @@ export default function App() {
       </TouchableOpacity>
 
       <FlatList
-        data={tasks.filter(task => !task.completed)}
+        data={filteredTasks.filter((task) => !task.completed)}
         renderItem={renderTaskItem}
         keyExtractor={(item, index) => index.toString()}
       />
@@ -173,7 +188,7 @@ export default function App() {
         <View style={styles.modalContent}>
           <Text style={styles.modalTitle}>Completed Tasks</Text>
           <FlatList
-            data={tasks.filter(task => task.completed)}
+            data={tasks.filter((task) => task.completed)}
             renderItem={renderTaskItem}
             keyExtractor={(item, index) => index.toString()}
           />
@@ -216,6 +231,22 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#00796b',
     marginTop: 50,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#e0f2f1',
+    paddingHorizontal: 10,
+    borderRadius: 20,
+    marginBottom: 15,
+    height: 40,
+  },
+  searchIcon: {
+    marginRight: 10,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
   },
   input: {
     padding: 15,
