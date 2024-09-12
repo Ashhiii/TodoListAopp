@@ -1,6 +1,5 @@
 {/* BSIT - 3R4 */}
-{/* De La Pena, Jefferson C. */}
-{/* De La Pena, Justin Mae E. */}
+{/* De La Pena, Jefferson C. - De La Pena, Justin Mae E. */}
 
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
